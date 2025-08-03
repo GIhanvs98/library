@@ -19,28 +19,28 @@
          </font>
       </Label>
       <Separator layoutX="10.0" layoutY="62.0" prefHeight="4.0" prefWidth="600.0" />
-      <TextField layoutX="262.0" layoutY="81.0" prefHeight="31.0" prefWidth="142.0" promptText="First Name">
+      <TextField fx:id="txtFirstName" layoutX="262.0" layoutY="81.0" prefHeight="31.0" prefWidth="142.0" promptText="First Name">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </TextField>
-      <Button layoutX="269.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #3498db;" text="Sign Up" textFill="WHITE">
+      <Button layoutX="269.0" layoutY="230.0" mnemonicParsing="false" onAction="#saveUserOnAction" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #3498db;" text="Sign Up" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
-      <TextField layoutX="450.0" layoutY="81.0" prefHeight="31.0" prefWidth="160.0" promptText="Last Name">
+      <TextField fx:id="txtLastName" layoutX="435.0" layoutY="81.0" prefHeight="31.0" prefWidth="160.0" promptText="Last Name">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </TextField>
-      <TextField layoutX="262.0" layoutY="127.0" prefHeight="31.0" prefWidth="336.0" promptText="Email">
+      <TextField fx:id="txtEmail" layoutX="262.0" layoutY="127.0" prefHeight="31.0" prefWidth="336.0" promptText="Email">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </TextField>
-      <PasswordField layoutX="259.0" layoutY="185.0" prefHeight="28.0" prefWidth="336.0" promptText="Password" />
-      <Button layoutX="269.0" layoutY="316.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #8e44ad;" text="Already have an account" textFill="WHITE">
+      <PasswordField fx:id="txtPassword" layoutX="259.0" layoutY="185.0" prefHeight="28.0" prefWidth="336.0" promptText="Password" />
+      <Button layoutX="269.0" layoutY="316.0" mnemonicParsing="false" onAction="#alreadyHaveAnAccountOnAction" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #8e44ad;" text="Already have an account" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>

@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pcl.library.controller.LoginFormController">
+<AnchorPane fx:id="context" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pcl.library.controller.LoginFormController">
    <children>
       <Label layoutX="34.0" layoutY="16.0" text="Login" textFill="#750586">
          <font>
@@ -19,22 +19,22 @@
          </font>
       </Label>
       <Separator layoutY="52.0" prefHeight="4.0" prefWidth="600.0" />
-      <TextField layoutX="25.0" layoutY="71.0" prefHeight="25.0" prefWidth="303.0" promptText="Email">
+      <TextField fx:id="txtEmail" layoutX="25.0" layoutY="71.0" prefHeight="25.0" prefWidth="303.0" promptText="Email">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </TextField>
-      <PasswordField layoutX="25.0" layoutY="132.0" prefHeight="25.0" prefWidth="303.0" promptText="Password">
+      <PasswordField fx:id="txtPassword" layoutX="25.0" layoutY="132.0" prefHeight="25.0" prefWidth="303.0" promptText="Password">
          <font>
             <Font size="15.0" />
          </font>
       </PasswordField>
-      <Button layoutX="19.0" layoutY="188.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #3498db;" text="Login" textFill="WHITE">
+      <Button layoutX="19.0" layoutY="188.0" mnemonicParsing="false" onAction="#loginOnAction" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #3498db;" text="Login" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
-      <Button layoutX="19.0" layoutY="279.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #9b59b6;" text="Signup" textFill="WHITE">
+      <Button layoutX="19.0" layoutY="279.0" mnemonicParsing="false" onAction="#signupOnAction" prefHeight="25.0" prefWidth="303.0" style="-fx-background-color: #9b59b6;" text="Signup" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>
