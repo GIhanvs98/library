@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class LoginFormController {
     public TextField txtEmail;
@@ -22,7 +23,7 @@ public class LoginFormController {
       String email = txtEmail.getText().toLowerCase();
       String password=txtPassword.getText().trim();
 
-      for (User user:Database.usersTable){
+      /*for (User user:Database.usersTable){
           if(user.getEmail().equals(email)){
               if(user.getPassword().equals(password)){
                   setUi("Dashboard");
@@ -34,8 +35,22 @@ public class LoginFormController {
               new Alert(Alert.AlertType.ERROR,"Invalid Email!").show();
           }
 
-      }
+      }*/
 
+       Optional<User> selectedUser = Database.usersTable.stream().filter
+               (e->e.getEmail().equals(email)).findFirst();
+
+       if (selectedUser.isPresent()){
+           if (selectedUser.get().getPassword().equals(password)){
+               setUi("Dashboard");
+           }else {
+               new Alert(Alert.AlertType.ERROR,"Invalid Password!").show();
+               return;
+           }
+       }else{
+           new Alert(Alert.AlertType.ERROR,"user not found!").show();
+           return;
+       }
     }
 
     public void signupOnAction(ActionEvent actionEvent) throws IOException {
