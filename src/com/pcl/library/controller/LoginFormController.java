@@ -2,6 +2,7 @@ package com.pcl.library.controller;
 
 import com.pcl.library.db.Database;
 import com.pcl.library.model.User;
+import com.pcl.library.util.security.PasswordManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,25 +24,11 @@ public class LoginFormController {
       String email = txtEmail.getText().toLowerCase();
       String password=txtPassword.getText().trim();
 
-      /*for (User user:Database.usersTable){
-          if(user.getEmail().equals(email)){
-              if(user.getPassword().equals(password)){
-                  setUi("Dashboard");
-              }else {
-                  new Alert(Alert.AlertType.ERROR,"Invalid Password!").show();
-                  return;
-              }
-          }else {
-              new Alert(Alert.AlertType.ERROR,"Invalid Email!").show();
-          }
-
-      }*/
-
        Optional<User> selectedUser = Database.usersTable.stream().filter
                (e->e.getEmail().equals(email)).findFirst();
 
        if (selectedUser.isPresent()){
-           if (selectedUser.get().getPassword().equals(password)){
+           if (new PasswordManager().check(password,selectedUser.get().getPassword())){
                setUi("Dashboard");
            }else {
                new Alert(Alert.AlertType.ERROR,"Invalid Password!").show();
