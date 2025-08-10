@@ -57,11 +57,12 @@ public class DashboardController {
         clear();
     }
     private void clear(){
-        txtBId.clear();
+
         txtBName.clear();
         txtAuthor.clear();
         cmdSection.setValue(null);
         cmbCupboard.setValue(null);
         rBtnIsAvailableYes.setSelected(false);
+        rBtnIsAvailableNo.setSelected(true);
     }
 }

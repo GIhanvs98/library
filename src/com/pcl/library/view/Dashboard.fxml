@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -35,5 +37,16 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <TableView layoutX="14.0" layoutY="155.0" prefHeight="200.0" prefWidth="581.0">
+        <columns>
+          <TableColumn prefWidth="60.0" text="BookId" />
+          <TableColumn prefWidth="74.0" text="BookName" />
+            <TableColumn prefWidth="75.0" text="Author" />
+            <TableColumn prefWidth="115.0" text="Cupboard" />
+            <TableColumn prefWidth="105.0" text="Section" />
+            <TableColumn prefWidth="79.0" text="Availiablity " />
+            <TableColumn prefWidth="88.0" text="Option" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
