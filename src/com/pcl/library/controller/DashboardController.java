@@ -2,8 +2,13 @@ package com.pcl.library.controller;
 
 import com.pcl.library.db.Database;
 import com.pcl.library.model.Book;
+import com.pcl.library.tm.BookTm;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+
+import java.util.Observable;
 
 public class DashboardController {
     public TextField txtBId;
@@ -31,7 +36,21 @@ public class DashboardController {
         setTableData();
     }
     private void setTableData(){
-
+        ObservableList<BookTm> bookList= FXCollections.observableArrayList();
+        tblBook.setItems(bookList);
+        for(Book book:Database.bookTable){
+            Button button=new Button("Delete");
+            BookTm bookTm=new BookTm(
+                    book.getBookID(),
+                    book.getBookName(),
+                    book.getBookAuthor(),
+                    book.getCupboard(),
+                    book.getSection(),
+                    book.getAvailability() ? "Yes" : "NO",
+                    button
+            );
+            bookList.add(bookTm);
+        }
     }
 
     private void setBookId() {
