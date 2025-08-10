@@ -23,7 +23,7 @@
       <TextField fx:id="txtBId" editable="false" layoutX="22.0" layoutY="53.0" promptText="Book Id" />
       <TextField fx:id="txtBName" layoutX="192.0" layoutY="53.0" promptText="Book Name" />
       <TextField fx:id="txtAuthor" layoutX="381.0" layoutY="53.0" prefHeight="25.0" prefWidth="149.0" promptText="Author" />
-      <Button layoutX="509.0" layoutY="102.0" mnemonicParsing="false" onAction="#saveOnAction" style="-fx-background-color: #6c5ce7;" text="Save Book" textFill="WHITE" />
+      <Button fx:id="btnSave" layoutX="509.0" layoutY="102.0" mnemonicParsing="false" onAction="#saveOnAction" style="-fx-background-color: #6c5ce7;" text="Save Book" textFill="WHITE" />
       <ComboBox fx:id="cmbCupboard" layoutX="22.0" layoutY="89.0" prefWidth="150.0" promptText="Select Cupboard" />
       <ComboBox fx:id="cmdSection" layoutX="192.0" layoutY="89.0" prefWidth="150.0" promptText="Select Section" />
       <RadioButton fx:id="rBtnIsAvailableYes" layoutX="381.0" layoutY="106.0" mnemonicParsing="false" text="Yes">

@@ -27,6 +27,7 @@ public class DashboardController {
     public TableColumn colSection;
     public TableColumn colAvailability;
     public TableColumn colOption;
+    public Button btnSave;
 
     public void initialize(){
         cmbCupboard.getItems().add("Cupboard-1");
@@ -42,7 +43,27 @@ public class DashboardController {
         colOption.setCellValueFactory(new PropertyValueFactory<>("button"));
         setBookId();
         setTableData();
+        tblBook.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue !=null){
+                setData((BookTm)newValue);
+            }
+        });
     }
+
+    private void setData(BookTm newValue) {
+        txtBId.setText(newValue.getBookID());
+        txtBName.setText(newValue.getBookName());
+        txtAuthor.setText(newValue.getBookAuthor());
+        cmbCupboard.setValue(newValue.getCupboard());
+        cmdSection.setValue(newValue.getSection());
+        boolean isAvailible="Yes".equalsIgnoreCase(newValue.getAvailability());
+
+        rBtnIsAvailableYes.setSelected(isAvailible);
+        rBtnIsAvailableNo.setSelected(!isAvailible);
+
+
+    }
+
     private void setTableData(){
         ObservableList<BookTm> bookList= FXCollections.observableArrayList();
         tblBook.setItems(bookList);
@@ -54,7 +75,7 @@ public class DashboardController {
                     book.getBookAuthor(),
                     book.getCupboard(),
                     book.getSection(),
-                    book.getAvailability() ? "Yes" : "NO",
+                    book.getAvailability() ? "Yes" : "No",
                     button
             );
             button.setOnAction(event -> {
@@ -65,6 +86,8 @@ public class DashboardController {
               if (alert.getResult()==ButtonType.YES){
                   Database.bookTable.remove(book);
                   new Alert(Alert.AlertType.INFORMATION,"Book deleted successfully").show();
+                  setTableData();
+                  setBookId();
               }
             });
 
