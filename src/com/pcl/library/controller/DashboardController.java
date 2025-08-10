@@ -57,6 +57,16 @@ public class DashboardController {
                     book.getAvailability() ? "Yes" : "NO",
                     button
             );
+            button.setOnAction(event -> {
+              Alert alert=  new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to delete this book?",
+                        ButtonType.YES, ButtonType.NO
+                );
+              alert.showAndWait();
+              if (alert.getResult()==ButtonType.YES){
+                  Database.bookTable.remove(book);
+                  new Alert(Alert.AlertType.INFORMATION,"Book deleted successfully").show();
+              }
+            });
 
             bookList.add(bookTm);
         }
