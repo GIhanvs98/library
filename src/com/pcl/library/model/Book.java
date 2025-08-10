@@ -6,7 +6,7 @@ public class Book {
    private  String bookAuthor;
    private String cupboard;
    private String section;
-    private String availability;
+    private boolean availability;
 
     @Override
     public String toString() {
@@ -23,7 +23,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String bookID, String bookName, String bookAuthor, String cupboard, String section, String availability) {
+    public Book(String bookID, String bookName, String bookAuthor, String cupboard, String section, boolean availability) {
         this.bookID = bookID;
         this.bookName = bookName;
         this.bookAuthor = bookAuthor;
@@ -52,11 +52,11 @@ public class Book {
         this.section = section;
     }
 
-    public void setAvailability(String availability) {
+    public void setAvailability(boolean availability) {
         this.availability = availability;
     }
 
-    public String getAvailability() {
+    public boolean getAvailability() {
         return availability;
     }
 
