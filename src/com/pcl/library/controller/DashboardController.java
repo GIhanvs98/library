@@ -13,6 +13,14 @@ public class DashboardController {
     public ComboBox cmdSection;
     public RadioButton rBtnIsAvailableYes;
     public RadioButton rBtnIsAvailableNo;
+    public TableView tblBook;
+    public TableColumn colBId;
+    public TableColumn colBName;
+    public TableColumn colAuthor;
+    public TableColumn colCupboard;
+    public TableColumn colSection;
+    public TableColumn colAvailability;
+    public TableColumn colOption;
 
     public void initialize(){
         cmbCupboard.getItems().add("Cupboard-1");
@@ -20,6 +28,10 @@ public class DashboardController {
         cmdSection.getItems().add("Section-A");
         cmdSection.getItems().add("Section-B");
         setBookId();
+        setTableData();
+    }
+    private void setTableData(){
+
     }
 
     private void setBookId() {
