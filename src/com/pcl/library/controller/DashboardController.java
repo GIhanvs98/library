@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Observable;
 
@@ -32,6 +33,13 @@ public class DashboardController {
         cmbCupboard.getItems().add("Cupboard-2");
         cmdSection.getItems().add("Section-A");
         cmdSection.getItems().add("Section-B");
+        colBId.setCellValueFactory(new PropertyValueFactory<>("bookID"));
+        colBName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        colAuthor.setCellValueFactory(new PropertyValueFactory<>("bookAuthor"));
+        colCupboard.setCellValueFactory(new PropertyValueFactory<>("cupboard"));
+        colSection.setCellValueFactory(new PropertyValueFactory<>("section"));
+        colAvailability.setCellValueFactory(new PropertyValueFactory<>("availability"));
+        colOption.setCellValueFactory(new PropertyValueFactory<>("button"));
         setBookId();
         setTableData();
     }
@@ -49,6 +57,7 @@ public class DashboardController {
                     book.getAvailability() ? "Yes" : "NO",
                     button
             );
+
             bookList.add(bookTm);
         }
     }
@@ -84,6 +93,7 @@ public class DashboardController {
         Database.bookTable.add(book);
         new Alert(Alert.AlertType.INFORMATION, "Book Saved").show();
         System.out.println(book.toString());
+        setTableData();
         setBookId();
         clear();
     }
