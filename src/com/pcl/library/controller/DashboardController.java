@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Observable;
+import java.util.Optional;
 
 public class DashboardController {
     public TextField txtBId;
@@ -51,6 +52,7 @@ public class DashboardController {
     }
 
     private void setData(BookTm newValue) {
+        btnSave.setText("Update");
         txtBId.setText(newValue.getBookID());
         txtBName.setText(newValue.getBookName());
         txtAuthor.setText(newValue.getBookAuthor());
@@ -113,22 +115,42 @@ public class DashboardController {
 
 
     public void saveOnAction(ActionEvent actionEvent) {
-      Book book=new Book(
-            txtBId.getText(),
-                txtBName.getText(),
-                txtAuthor.getText(),
-                cmbCupboard.getValue().toString(),
-                cmdSection.getValue().toString(),
-              rBtnIsAvailableYes.isSelected()
+        if (btnSave.getText().equalsIgnoreCase("save book")){
+            Book book=new Book(
+                    txtBId.getText(),
+                    txtBName.getText(),
+                    txtAuthor.getText(),
+                    cmbCupboard.getValue().toString(),
+                    cmdSection.getValue().toString(),
+                    rBtnIsAvailableYes.isSelected()
 
 
-        );
-        Database.bookTable.add(book);
-        new Alert(Alert.AlertType.INFORMATION, "Book Saved").show();
-        System.out.println(book.toString());
-        setTableData();
-        setBookId();
-        clear();
+            );
+            Database.bookTable.add(book);
+            new Alert(Alert.AlertType.INFORMATION, "Book Saved").show();
+            System.out.println(book.toString());
+            setTableData();
+            setBookId();
+            clear();
+        }else{
+           Optional<Book> selectedBook =Database.bookTable.stream().filter(e->e.getBookID().equals(txtBId.getText())).findFirst();
+           if(!selectedBook.isPresent()){
+               new Alert(Alert.AlertType.INFORMATION, "Book Not Found").show();
+
+           }else {
+               selectedBook.get().setBookName(txtBName.getText());
+               selectedBook.get().setBookAuthor(txtAuthor.getText());
+               selectedBook.get().setCupboard(cmbCupboard.getValue().toString());
+               selectedBook.get().setSection(cmdSection.getValue().toString());
+               selectedBook.get().setAvailability(rBtnIsAvailableYes.isSelected());
+               new Alert(Alert.AlertType.INFORMATION, "Book Updated").show();
+               setTableData();
+               setTableData();
+               btnSave.setText("Book Saved");
+               clear();
+           }
+        }
+
     }
     private void clear(){
 
