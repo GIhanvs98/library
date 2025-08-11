@@ -2,6 +2,7 @@ package com.pcl.library.controller;
 
 import com.pcl.library.db.Database;
 import com.pcl.library.model.User;
+import com.pcl.library.util.security.PasswordManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,7 +28,7 @@ public class SignupFormController {
        String password= txtPassword.getText().trim();
 
         Database.usersTable.add(
-                new User(firstName,lastName,email,password)
+                new User(firstName,lastName,email, new PasswordManager().encode(password))
         );
         new Alert(Alert.AlertType.INFORMATION,"Welcome!").show();
         setUi("LoginForm");
