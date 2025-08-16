@@ -13,6 +13,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SignupFormController {
     public TextField txtFirstName;
@@ -27,12 +31,44 @@ public class SignupFormController {
        String email= txtEmail.getText().toLowerCase();
        String password= txtPassword.getText().trim();
 
-        Database.usersTable.add(
-                new User(firstName,lastName,email, new PasswordManager().encode(password))
-        );
-        new Alert(Alert.AlertType.INFORMATION,"Welcome!").show();
-        setUi("LoginForm");
-        System.out.println(Database.usersTable);
+       try{
+           boolean isSaved= signup(new User(firstName,lastName,email,new PasswordManager().encode(password)));
+           if(isSaved){
+               new Alert(Alert.AlertType.INFORMATION,"Welcome!").show();
+               setUi("LoginForm");
+           }else{
+               new Alert(Alert.AlertType.WARNING,"Something went wrong").show();
+           }
+
+       }catch (SQLException | ClassNotFoundException e){
+           e.printStackTrace();
+       }
+
+
+
+    }
+
+    private boolean signup(User user) throws ClassNotFoundException, SQLException {
+
+           Class.forName("com.mysql.cj.jdbc.Driver");//load driver
+
+       Connection connection =
+               DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");//create connection
+
+        String sql="INSERT INTO user VALUES (" +
+                "'"+user.getEmail()+"'," +
+                "'"+user.getFirstName()+"'," +
+                "'"+user.getLastName()+"'," +
+                "'"+user.getPassword()+"')";//write query
+
+       Statement statement= connection.createStatement();//statement created
+
+       return statement.executeUpdate(sql)>0;
+       // return rowCount>0;
+    /*    if (rowCount>0){
+            return true;
+        }
+        return false;*/
     }
 
     private void setUi(String location) throws IOException {
