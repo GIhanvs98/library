@@ -13,10 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class SignupFormController {
     public TextField txtFirstName;
@@ -55,15 +52,15 @@ public class SignupFormController {
        Connection connection =
                DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");//create connection
 
-        String sql="INSERT INTO user VALUES (" +
-                "'"+user.getEmail()+"'," +
-                "'"+user.getFirstName()+"'," +
-                "'"+user.getLastName()+"'," +
-                "'"+user.getPassword()+"')";//write query
+        String sql="INSERT INTO user VALUES (?,?,?,?)";//write query//static
 
-       Statement statement= connection.createStatement();//statement created
+       PreparedStatement statement= connection.prepareStatement(sql);//statement created
+        statement.setString(1,user.getEmail());
+        statement.setString(2,user.getFirstName());
+        statement.setString(3,user.getLastName());
+        statement.setString(4,user.getPassword());
 
-       return statement.executeUpdate(sql)>0;
+       return statement.executeUpdate()>0;
        // return rowCount>0;
     /*    if (rowCount>0){
             return true;
