@@ -9,10 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Observable;
 import java.util.Optional;
 
@@ -189,5 +186,16 @@ public class DashboardController {
         cmbCupboard.setValue(null);
         rBtnIsAvailableYes.setSelected(false);
         rBtnIsAvailableNo.setSelected(true);
+    }
+    private String getLastId() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");
+        String sql="SELECT book_id FROM book ORDER BY CAST(SUBSTRING(book_id,3)AS UNSIGNED)DESC LIMIT 1";
+       PreparedStatement statement= connection.prepareStatement(sql);
+       ResultSet resultSet =statement.executeQuery();
+       if(resultSet.next()){
+           return resultSet.getString("book_id");
+       }
+       return null;
     }
 }
