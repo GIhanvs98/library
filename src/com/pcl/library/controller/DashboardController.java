@@ -99,19 +99,23 @@ public class DashboardController {
     }
 
     private void setBookId() {
-        if(!Database.bookTable.isEmpty()){
-          Book lastBook= Database.bookTable.get(Database.bookTable.size()-1);
-          String lastBookId=lastBook.getBookID();
-          String splitId[]=lastBookId.split("-");
-          String lastCharAsString=splitId[1];
-          int lastCharAsInt=Integer.parseInt(lastCharAsString);
-          lastCharAsInt++;
-          String genaratedBookId="B-"+lastCharAsInt;
-          txtBId.setText(genaratedBookId);
 
-        }else{
-            txtBId.setText("B-1");
+        try{
+            String  lastBookId=getLastId();
+            if(lastBookId!=null){
+                String splitId[]=lastBookId.split("-");
+                String lastCharAsString=splitId[1];
+                int lastCharAsInt=Integer.parseInt(lastCharAsString);
+                lastCharAsInt++;
+                String genaratedBookId="B-"+lastCharAsInt;
+                txtBId.setText(genaratedBookId);
+            }else {
+                txtBId.setText("B-1");
+            }
+        }catch (ClassNotFoundException | SQLException e){
+            e.printStackTrace();
         }
+
     }
 
 
