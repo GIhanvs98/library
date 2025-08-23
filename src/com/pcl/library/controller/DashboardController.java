@@ -9,6 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Optional;
 
@@ -124,14 +128,24 @@ public class DashboardController {
                     cmdSection.getValue().toString(),
                     rBtnIsAvailableYes.isSelected()
 
-
             );
-            Database.bookTable.add(book);
-            new Alert(Alert.AlertType.INFORMATION, "Book Saved").show();
-            System.out.println(book.toString());
-            setTableData();
-            setBookId();
-            clear();
+            try {
+                boolean isSaved=  saveBook(book);
+                if (isSaved){
+                    new Alert(Alert.AlertType.INFORMATION, "Book Saved").show();
+                    setTableData();
+                    setBookId();//pending
+                    clear();
+
+                }else {
+                    new Alert(Alert.AlertType.WARNING,"something went wrong please try again").show();
+                    return;
+                }
+
+            } catch (ClassNotFoundException | SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
         }else{
            Optional<Book> selectedBook =Database.bookTable.stream().filter(e->e.getBookID().equals(txtBId.getText())).findFirst();
            if(!selectedBook.isPresent()){
@@ -152,6 +166,21 @@ public class DashboardController {
         }
 
     }
+
+    private boolean saveBook(Book book) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+      Connection connection= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");
+        String sql="INSERT INTO book VALUES (?,?,?,?,?,?)";
+       PreparedStatement statement =connection.prepareStatement(sql);
+       statement.setString(1,book.getBookID());
+       statement.setString(2,book.getBookName());
+       statement.setString(3,book.getBookAuthor());
+       statement.setString(4,book.getCupboard());
+       statement.setString(5,book.getSection());
+       statement.setBoolean(6,book.getAvailability());
+       return statement.executeUpdate()>0;
+    }
+
     private void clear(){
 
         txtBName.clear();
