@@ -131,16 +131,17 @@ public class DashboardController {
 
 
     public void saveOnAction(ActionEvent actionEvent) {
-        if (btnSave.getText().equalsIgnoreCase("save book")){
-            Book book=new Book(
-                    txtBId.getText(),
-                    txtBName.getText(),
-                    txtAuthor.getText(),
-                    cmbCupboard.getValue().toString(),
-                    cmdSection.getValue().toString(),
-                    rBtnIsAvailableYes.isSelected()
+        Book book=new Book(
+                txtBId.getText(),
+                txtBName.getText(),
+                txtAuthor.getText(),
+                cmbCupboard.getValue().toString(),
+                cmdSection.getValue().toString(),
+                rBtnIsAvailableYes.isSelected()
 
-            );
+        );
+        if (btnSave.getText().equalsIgnoreCase("save book")){
+
             try {
                 boolean isSaved=  saveBook(book);
                 if (isSaved){
@@ -159,22 +160,22 @@ public class DashboardController {
             }
 
         }else{
-           Optional<Book> selectedBook =Database.bookTable.stream().filter(e->e.getBookID().equals(txtBId.getText())).findFirst();
-           if(!selectedBook.isPresent()){
-               new Alert(Alert.AlertType.INFORMATION, "Book Not Found").show();
+            try {
 
-           }else {
-               selectedBook.get().setBookName(txtBName.getText());
-               selectedBook.get().setBookAuthor(txtAuthor.getText());
-               selectedBook.get().setCupboard(cmbCupboard.getValue().toString());
-               selectedBook.get().setSection(cmdSection.getValue().toString());
-               selectedBook.get().setAvailability(rBtnIsAvailableYes.isSelected());
-               new Alert(Alert.AlertType.INFORMATION, "Book Updated").show();
-               setTableData();
-               setTableData();
-               btnSave.setText("Book Saved");
-               clear();
-           }
+                if (!updateBook(book)) {
+                    new Alert(Alert.AlertType.INFORMATION, "Book Not Found").show();
+
+                } else {
+
+                    new Alert(Alert.AlertType.INFORMATION, "Book Updated").show();
+                    setTableData();
+                    setTableData();
+                    btnSave.setText("Book Saved");
+                    clear();
+                }
+            }catch (ClassNotFoundException|SQLException e){
+                new Alert(Alert.AlertType.INFORMATION, e.toString()).show();
+            }
         }
 
     }
@@ -243,5 +244,19 @@ public class DashboardController {
         PreparedStatement preparedStatement=connection.prepareStatement("DELETE FROM book WHERE book_id=?");
         preparedStatement.setString(1,bookId);
        return preparedStatement.executeUpdate()>0;
+    }
+
+    private boolean updateBook(Book book) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");
+        PreparedStatement preparedStatement=connection.prepareStatement("UPDATE book SET book_name=?,book_author=?,cupboard=?,section=?,availiability=? WHERE book_id=?");
+        preparedStatement.setString(1,book.getBookName());
+        preparedStatement.setString(2,book.getBookAuthor());
+        preparedStatement.setString(3,book.getCupboard());
+        preparedStatement.setString(4,book.getSection());
+        preparedStatement.setBoolean(5,book.getAvailability());
+        preparedStatement.setString(6,book.getBookID());
+       return preparedStatement.executeUpdate()>0;
+
     }
 }
