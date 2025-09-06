@@ -10,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Optional;
 
@@ -70,7 +72,8 @@ public class DashboardController {
     private void setTableData(){
         ObservableList<BookTm> bookList= FXCollections.observableArrayList();
         tblBook.setItems(bookList);
-        for(Book book:Database.bookTable){
+        try{
+        for(Book book:fetchBookList()){
             Button button=new Button("Delete");
             BookTm bookTm=new BookTm(
                     book.getBookID(),
@@ -95,6 +98,8 @@ public class DashboardController {
             });
 
             bookList.add(bookTm);
+        }}catch (ClassNotFoundException | SQLException e){
+            e.printStackTrace();
         }
     }
 
@@ -201,5 +206,28 @@ public class DashboardController {
            return resultSet.getString("book_id");
        }
        return null;
+    }
+
+    private List<Book>  fetchBookList() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");
+        PreparedStatement preparedStatement=connection.prepareStatement("SELECT * FROM book");
+        ResultSet resultSet=preparedStatement.executeQuery();
+        List<Book> bookList=new ArrayList<>();
+
+            while(resultSet.next()){
+                bookList.add(new Book(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getString(5),
+                        resultSet.getBoolean(6)
+                ));
+            }
+            return bookList;
+
+
+
     }
 }
