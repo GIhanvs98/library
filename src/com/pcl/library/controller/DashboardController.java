@@ -89,11 +89,17 @@ public class DashboardController {
                         ButtonType.YES, ButtonType.NO
                 );
               alert.showAndWait();
+
               if (alert.getResult()==ButtonType.YES){
-                  Database.bookTable.remove(book);
-                  new Alert(Alert.AlertType.INFORMATION,"Book deleted successfully").show();
-                  setTableData();
-                  setBookId();
+                  try {
+                      boolean statusDel=deleteBook(book.getBookID());
+                      new Alert(Alert.AlertType.INFORMATION,"Book deleted successfully").show();
+                      setTableData();
+                      setBookId();
+                  } catch (ClassNotFoundException | SQLException e) {
+                      throw new RuntimeException(e);
+                  }
+
               }
             });
 
@@ -229,5 +235,13 @@ public class DashboardController {
 
 
 
+    }
+
+    private boolean deleteBook(String bookId) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");
+        PreparedStatement preparedStatement=connection.prepareStatement("DELETE FROM book WHERE book_id=?");
+        preparedStatement.setString(1,bookId);
+       return preparedStatement.executeUpdate()>0;
     }
 }
