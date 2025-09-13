@@ -46,8 +46,8 @@ public class LoginFormController {
     }
 
     private User login(String email) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");
+        Class.forName("com.mysql.cj.jdbc.Driver");//driver
+        Connection connection =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");//connection
         String sql="SELECT * FROM user WHERE email=?";
 
         PreparedStatement statement= connection.prepareStatement(sql);

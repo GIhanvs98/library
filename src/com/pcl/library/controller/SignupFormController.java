@@ -47,7 +47,7 @@ public class SignupFormController {
 
     private boolean signup(User user) throws ClassNotFoundException, SQLException {
 
-           Class.forName("com.mysql.cj.jdbc.Driver");//load driver
+        Class.forName("com.mysql.cj.jdbc.Driver");//load driver
 
        Connection connection =
                DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");//create connection
