@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class SignupFormController {
     public TextField txtFirstName;
@@ -27,12 +28,44 @@ public class SignupFormController {
        String email= txtEmail.getText().toLowerCase();
        String password= txtPassword.getText().trim();
 
-        Database.usersTable.add(
-                new User(firstName,lastName,email, new PasswordManager().encode(password))
-        );
-        new Alert(Alert.AlertType.INFORMATION,"Welcome!").show();
-        setUi("LoginForm");
-        System.out.println(Database.usersTable);
+       try{
+           boolean isSaved= signup(new User(firstName,lastName,email,new PasswordManager().encode(password)));
+           if(isSaved){
+               new Alert(Alert.AlertType.INFORMATION,"Welcome!").show();
+               setUi("LoginForm");
+           }else{
+               new Alert(Alert.AlertType.WARNING,"Something went wrong").show();
+           }
+
+       }catch (SQLException | ClassNotFoundException e){
+           e.printStackTrace();
+       }
+
+
+
+    }
+
+    private boolean signup(User user) throws ClassNotFoundException, SQLException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");//load driver
+
+       Connection connection =
+               DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library","root","1234");//create connection
+
+        String sql="INSERT INTO user VALUES (?,?,?,?)";//write query//static
+
+       PreparedStatement statement= connection.prepareStatement(sql);//statement created
+        statement.setString(1,user.getEmail());
+        statement.setString(2,user.getFirstName());
+        statement.setString(3,user.getLastName());
+        statement.setString(4,user.getPassword());
+
+       return statement.executeUpdate()>0;
+       // return rowCount>0;
+    /*    if (rowCount>0){
+            return true;
+        }
+        return false;*/
     }
 
     private void setUi(String location) throws IOException {
